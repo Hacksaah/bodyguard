@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         transform.rotation = Quaternion.Euler(0, 0, 45);
-        //rb.AddForce(Vector2.right * moveSpeed);
+        rb.AddForce(moveDir * moveSpeed);
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.MovePosition((Vector2)transform.position + (moveDir * moveSpeed * Time.deltaTime));
+        //rb.MovePosition((Vector2)transform.position + (moveDir * moveSpeed * Time.deltaTime));
     }
 
 
@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
         {
             float vX = rb.velocity.x;
             float vY = rb.velocity.y;
-            Debug.Log(vY);
+            //Debug.Log(vY);
             Vector3 eulerAngles = transform.rotation.eulerAngles;
             Vector2 velocity = rb.velocity;
             if (vX > 0)

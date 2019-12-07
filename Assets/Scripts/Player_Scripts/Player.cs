@@ -34,9 +34,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "platform")
         {
-            isGrounded = true;
-            //rb.velocity *= Vector2.right;
-            rb.gravityScale = 3;            
+            isGrounded = true;           
         }
     }
 
@@ -50,13 +48,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Checks for fast fall input
+    // Checks for fast fall inputC:\425Proj\bodyguard\Assets\Scripts\Player_Scripts\
     void CheckForFastFall()
     {
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            //rb.AddForce(Vector2.down * fastFall);
-            rb.gravityScale = fastFall;
+            Vector2 v = rb.velocity;
+            v.y = -16;
+            rb.velocity = v;
         }
     }
 
