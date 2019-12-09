@@ -81,6 +81,11 @@ public class Bullet : MonoBehaviour
             // --SUBSYSTEM --
             particles.EnableBurst();
         }
+        else if(collision.gameObject.layer == 9)
+        {
+            particles.EnableDeath();
+            particles.Trail.SetActive(false);
+        }
     }
     
     void CalculateCollisionAngle(Vector2 collisionPoint)
@@ -102,12 +107,5 @@ public class Bullet : MonoBehaviour
         float angle = Mathf.Acos(colY / mag) * 180 / Mathf.PI;
 
         Debug.Log(angle);
-    }
-
-    public void Test_OnDeath()
-    {
-
-    }
-
-    
+    }    
 }
