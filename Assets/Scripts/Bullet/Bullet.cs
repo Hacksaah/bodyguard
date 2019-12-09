@@ -84,7 +84,6 @@ public class Bullet : MonoBehaviour
         else if(collision.gameObject.layer == 9)
         {
             particles.EnableDeath();
-            //particles.Trail.SetActive(false);
         }
     }
     

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BulletParticleManager : MonoBehaviour
 {
-    public GameObject Trail;
-    public GameObject Burst;
-    public GameObject Death;
+    [SerializeField]
+    private GameObject Trail;
+    [SerializeField]
+    private GameObject Burst;
+    [SerializeField]
+    private GameObject Death;
 
     private ParticleSystem ps_burst;
     private ParticleSystem ps_trail;
@@ -24,13 +27,14 @@ public class BulletParticleManager : MonoBehaviour
 
     public void EnableBurst()
     {
-        ps_burst.Clear();
         ps_burst.Play();        
     }
 
     public void EnableDeath()
     {
-        ps_death.Clear();
         ps_death.Play();
+        
+        ps_trail.Pause();
+        ps_trail.Clear();
     }
 }
