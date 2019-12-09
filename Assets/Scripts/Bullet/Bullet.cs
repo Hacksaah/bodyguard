@@ -8,11 +8,14 @@ public class Bullet : MonoBehaviour
 
     public Vector2 moveDir = Vector2.one / 2;
     protected Rigidbody2D rb;
+    private SpriteRenderer sr;
 
+    public BulletParticleManager particles;
 
     // Start is called before the first frame update
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         transform.rotation = Quaternion.Euler(0, 0, 45);
         rb.AddForce(moveDir * moveSpeed);
@@ -74,6 +77,9 @@ public class Bullet : MonoBehaviour
                 else
                     UpdateAngle(eulerAngles.z - 90);
             }
+
+            // --SUBSYSTEM --
+            particles.EnableBurst();
         }
     }
     
@@ -97,4 +103,11 @@ public class Bullet : MonoBehaviour
 
         Debug.Log(angle);
     }
+
+    public void Test_OnDeath()
+    {
+
+    }
+
+    
 }
