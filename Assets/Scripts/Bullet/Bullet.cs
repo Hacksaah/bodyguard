@@ -6,9 +6,9 @@ public class Bullet : MonoBehaviour
     public float moveSpeed = 5;
     public Vector2 moveDir = Vector2.one / 2;
 
-    protected int health; // TODO: Set to 1 in BoidBullet
-    protected Rigidbody2D rb;
+    protected int health;
     protected float rbMagnitude;
+    protected Rigidbody2D rb;
 
     private SpriteRenderer sr;
 
@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         health = Random.Range(1, 4); // random health points between 1 and 3
         Debug.Log("Health: " + health);
@@ -29,18 +29,13 @@ public class Bullet : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         // get magnitude after collision
         rbMagnitude = rb.velocity.magnitude;
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         // check collision with player
         if (collision.gameObject.layer == 9)
