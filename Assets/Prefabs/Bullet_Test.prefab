@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 1240962625012917048}
   - component: {fileID: 1240962625012917050}
   m_Layer: 11
-  m_Name: Bullet
+  m_Name: Bullet_Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1240962625012917054
 Transform:
   m_ObjectHideFlags: 0
@@ -95,9 +95,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59eed22a77f36345b321b9b32b92252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particles: {fileID: 1240962626121911821}
   moveSpeed: 300
   moveDir: {x: 0.5, y: 0.5}
-  particles: {fileID: 1240962626121911821}
+  rb: {fileID: 0}
+  sr: {fileID: 0}
 --- !u!50 &1240962625012917048
 Rigidbody2D:
   serializedVersion: 4
