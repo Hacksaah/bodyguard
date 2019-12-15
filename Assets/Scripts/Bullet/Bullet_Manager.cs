@@ -13,6 +13,7 @@ using UnityEngine;
 public class Bullet_Manager : MonoBehaviour
 {
     public GameObject BulletPrefab;
+    public GameObject BoidBulletPrefab;
 
     protected List<GameObject> bullets = new List<GameObject>();
 
@@ -30,7 +31,7 @@ public class Bullet_Manager : MonoBehaviour
 
     void MakeBullets()
     {
-        if (BulletPrefab == null)
+        if (BulletPrefab == null || BoidBulletPrefab == null)
             Debug.Log("WARNING :: COULD NOT MAKE BULLETS; Bullet_Manager doesn't have a bullet prefab");
         else
         {

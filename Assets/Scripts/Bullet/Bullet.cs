@@ -2,15 +2,19 @@
 
 public class Bullet : MonoBehaviour
 {
-    public BulletParticleManager particles;
-    public float moveSpeed = 5;
-    public Vector2 moveDir = Vector2.one / 2;
-
-    protected int health; // TODO: Set to 1 in BoidBullet
+    [SerializeField]
+    protected BulletParticleManager particles;
+    [SerializeField]
+    protected float moveSpeed = 5;
+    [SerializeField]
+    protected Vector2 moveDir = Vector2.one / 2;
+    [SerializeField]
     protected Rigidbody2D rb;
-    protected float rbMagnitude;
+    [SerializeField]
+    protected SpriteRenderer sr;
 
-    private SpriteRenderer sr;
+    protected int health;
+    protected float rbMagnitude;
 
     public int Health
     {
@@ -18,10 +22,9 @@ public class Bullet : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         health = Random.Range(1, 4); // random health points between 1 and 3
-        Debug.Log("Health: " + health);
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce(moveDir * moveSpeed);
@@ -29,18 +32,13 @@ public class Bullet : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        // get magnitude after collision
+        // get magnitude before collision
         rbMagnitude = rb.velocity.magnitude;
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         // check collision with player
         if (collision.gameObject.layer == 9)
