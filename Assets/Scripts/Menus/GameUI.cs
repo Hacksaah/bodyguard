@@ -28,4 +28,9 @@ public class GameUI : MonoBehaviour
     {
         GameOverText.SetActive(true);
     }
+
+    public void ResetScore()
+    {
+        Score.value = 0;
+    }
 }

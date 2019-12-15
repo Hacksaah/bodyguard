@@ -101,6 +101,7 @@ MonoBehaviour:
   moveDir: {x: 0.5, y: 0.5}
   rb: {fileID: 0}
   sr: {fileID: 0}
+  IncreaseScore: {fileID: 11400000, guid: ecc2d697f7472aa4385c8536cce42012, type: 2}
 --- !u!50 &1240962625012917048
 Rigidbody2D:
   serializedVersion: 4

@@ -47,9 +47,10 @@ public class Bullet : MonoBehaviour
         // check collision with player
         if (collision.gameObject.layer == 9)
         {
+            IncreaseScore.Raise();
             // decrement health and destroy bullet if health is 0
             if (--health == 0)
-            {
+            {             
                 particles.EnableDeath();
 
                 //Add bullet to spawner list of dead bullets -- for bullet spawner
