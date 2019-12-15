@@ -16,6 +16,9 @@ public class Bullet : MonoBehaviour
     protected int health;
     protected float rbMagnitude;
 
+    //bullet spawner reference
+    protected BulletSpawner bSpawner;
+
     public int Health
     {
         get { return health; }
@@ -27,6 +30,7 @@ public class Bullet : MonoBehaviour
         health = Random.Range(1, 4); // random health points between 1 and 3
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        bSpawner = FindObjectOfType<BulletSpawner>();
         rb.AddForce(moveDir * moveSpeed);
         rbMagnitude = rb.velocity.magnitude;
     }
@@ -47,6 +51,9 @@ public class Bullet : MonoBehaviour
             if (--health == 0)
             {
                 particles.EnableDeath();
+
+                //Add bullet to spawner list of dead bullets -- for bullet spawner
+                bSpawner.AddBulletToDeadList(gameObject);               
             }
         }
 
@@ -55,5 +62,11 @@ public class Bullet : MonoBehaviour
 
         // --SUBSYSTEM --
         particles.EnableBurst();
+    }
+
+    //Enables particles for bullet -- for bullet spawner
+    public void ReviveBullet()
+    {
+        particles.EnableLife();
     }
 }
