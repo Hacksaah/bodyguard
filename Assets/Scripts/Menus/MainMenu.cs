@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using UnityEngine.SceneManagement;
-=======
->>>>>>> 62859b665c78ef6c2ba7f74430f53c43196c27f5
 
 public class MainMenu : MonoBehaviour
 {
