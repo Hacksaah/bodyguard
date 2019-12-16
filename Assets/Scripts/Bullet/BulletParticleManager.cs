@@ -34,5 +34,13 @@ public class BulletParticleManager : MonoBehaviour
         
         ps_trail.Pause();
         ps_trail.Clear();
+
+        //Move bullet outside of play area  -- for bullet spawner
+        transform.parent.transform.position = new Vector2(transform.position.x + 15f, transform.position.y);
+    }
+    //Reenable bullet particles -- for bullet spawner
+    public void EnableLife()
+    {
+        ps_trail.Play();
     }
 }
