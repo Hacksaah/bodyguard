@@ -1,17 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public BulletAudio audio;
+    public GameEvent IncreaseScore;
     [SerializeField]
     protected BulletParticleManager particles;
     [SerializeField]
     protected float moveSpeed = 5;
     [SerializeField]
-    protected Vector2 moveDir = Vector2.one / 2;
-    [SerializeField]
     protected Rigidbody2D rb;
-    [SerializeField]
-    protected SpriteRenderer sr;
+    protected CircleCollider2D coll;
+
 
     protected int health;
     protected float rbMagnitude;
@@ -25,15 +26,12 @@ public class Bullet : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        health = Random.Range(1, 4); // random health points between 1 and 3
-        sr = GetComponent<SpriteRenderer>();
+    protected virtual void Awake()
+    {       
         rb = GetComponent<Rigidbody2D>();
-        bSpawner = FindObjectOfType<BulletSpawner>();
-        rb.AddForce(moveDir * moveSpeed);
-        rbMagnitude = rb.velocity.magnitude;
+        bSpawner = FindObjectOfType<BulletSpawner>();        
         audio.audioSource = GetComponent<AudioSource>();
+        coll = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -51,17 +49,11 @@ public class Bullet : MonoBehaviour
             IncreaseScore.Raise();
             // decrement health and destroy bullet if health is 0
             if (--health == 0)
-            {             
-                particles.EnableDeath();
-
-                //Add bullet to spawner list of dead bullets -- for bullet spawner
-                bSpawner.AddBulletToDeadList(gameObject);               
+            {
+                PlayDeathNoSound();
                 audio.PlayDeathSound();
             }
-            else
-            {
-                audio.PlayClinkSound();
-            }
+            audio.PlayClinkSound();
         }
         else if(collision.gameObject.layer == 8)
         {
@@ -75,9 +67,32 @@ public class Bullet : MonoBehaviour
         particles.EnableBurst();
     }
 
-    //Enables particles for bullet -- for bullet spawner
-    public void ReviveBullet()
+    public void PlayDeathNoSound()
     {
+        particles.EnableDeath();
+        rb.bodyType = RigidbodyType2D.Static;
+        //Add bullet to spawner list of dead bullets -- for bullet spawner
+        bSpawner.AddBulletToDeadList(gameObject);
+        StartCoroutine(DeactivateCollider());
+    }
+
+    //Enables particles for bullet -- for bullet spawner
+    public void ReviveBullet(Vector2 direction)
+    {        
+        StopAllCoroutines();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        audio.PlaySpawnSound();
         particles.EnableLife();
+        coll.enabled = true;
+        health = 1;
+        rb.AddForce(direction * moveSpeed);
+        rbMagnitude = rb.velocity.magnitude;
+    }
+
+    IEnumerator DeactivateCollider()
+    {
+        coll.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        transform.position = Vector2.up * 60;
     }
 }

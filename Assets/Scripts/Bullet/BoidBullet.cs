@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class BoidBullet : Bullet
 {
@@ -6,10 +7,10 @@ public class BoidBullet : Bullet
     private GameObject target;
 
     // Start is called before the first frame update
-    override protected void Start()
+    override protected void Awake()
     {
         // everything from Bullet is the same except for health
-        base.Start();
+        base.Awake();
         health = 1;
         target = GameObject.Find("Protect_target");
     }
@@ -26,12 +27,23 @@ public class BoidBullet : Bullet
         Vector2 bulletDirection = (Vector2) target.transform.localPosition - bullet;
 
         // apply calculated trajectory to bullet
-        rb.velocity = rb.velocity + bulletDirection * Time.deltaTime;
+        rb.velocity = rb.velocity + bulletDirection * Time.deltaTime*1.4f;
         rb.velocity = rb.velocity.normalized * rbMagnitude;
     }
 
     override protected void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
+        if (health <= 0)
+        {
+            bSpawner.deadBulletList.Remove(gameObject);
+            StartCoroutine(DelayDestruction());
+        }
+    }
+
+    IEnumerator DelayDestruction()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 }
