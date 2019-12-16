@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        // get magnitude after collision
+        // get magnitude before collision
         rbMagnitude = rb.velocity.magnitude;
     }
 

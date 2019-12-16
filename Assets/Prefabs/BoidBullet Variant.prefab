@@ -17,6 +17,7 @@ MonoBehaviour:
   moveDir: {x: 0.5, y: 0.5}
   rb: {fileID: 0}
   sr: {fileID: 0}
+  target: {fileID: 0}
 --- !u!1001 &6051893495592174668
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,6 +29,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoidBullet Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1240962625012917051, guid: c0f6a9b905a66bb48bdfa6b3f897e6f4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1240962625012917054, guid: c0f6a9b905a66bb48bdfa6b3f897e6f4,
         type: 3}
