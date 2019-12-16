@@ -33,6 +33,7 @@ public class Bullet : MonoBehaviour
         bSpawner = FindObjectOfType<BulletSpawner>();
         rb.AddForce(moveDir * moveSpeed);
         rbMagnitude = rb.velocity.magnitude;
+        audio.audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -47,14 +48,24 @@ public class Bullet : MonoBehaviour
         // check collision with player
         if (collision.gameObject.layer == 9)
         {
+            IncreaseScore.Raise();
             // decrement health and destroy bullet if health is 0
             if (--health == 0)
-            {
+            {             
                 particles.EnableDeath();
 
                 //Add bullet to spawner list of dead bullets -- for bullet spawner
                 bSpawner.AddBulletToDeadList(gameObject);               
+                audio.PlayDeathSound();
             }
+            else
+            {
+                audio.PlayClinkSound();
+            }
+        }
+        else if(collision.gameObject.layer == 8)
+        {
+            audio.PlayBounceSound();
         }
 
         // maintain current magnitude after collision
