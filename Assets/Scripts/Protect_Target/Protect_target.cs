@@ -7,7 +7,8 @@ public class Protect_target : MonoBehaviour
     public float moveSpeed = 35;
 
     protected Rigidbody2D rb;
-    
+
+    public GameEvent GameOverEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -36,5 +37,15 @@ public class Protect_target : MonoBehaviour
         }
         if(time <= 0)
             StartCoroutine(Move());
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //If a projectile collides with the protect target the game ends
+        if (collision.gameObject.layer == 11)
+        {
+            collision.gameObject.GetComponent<Bullet>().audio.PlayDeathSound();
+            GameOverEvent.Raise();
+        }
     }
 }
