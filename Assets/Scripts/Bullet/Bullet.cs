@@ -31,7 +31,12 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         bSpawner = FindObjectOfType<BulletSpawner>();        
         audio.audioSource = GetComponent<AudioSource>();
-        coll = GetComponent<CircleCollider2D>();
+        coll = GetComponent<CircleCollider2D>();        
+    }
+
+    protected virtual void Start()
+    {
+
     }
 
     // Update is called once per frame
@@ -53,7 +58,11 @@ public class Bullet : MonoBehaviour
                 PlayDeathNoSound();
                 audio.PlayDeathSound();
             }
-            audio.PlayClinkSound();
+            else
+            {
+                particles.ChangeParticleColor(health - 1);
+                audio.PlayClinkSound();
+            }
         }
         else if(collision.gameObject.layer == 8)
         {
@@ -77,14 +86,15 @@ public class Bullet : MonoBehaviour
     }
 
     //Enables particles for bullet -- for bullet spawner
-    public void ReviveBullet(Vector2 direction)
+    public virtual void ReviveBullet(Vector2 direction)
     {        
         StopAllCoroutines();
         rb.bodyType = RigidbodyType2D.Dynamic;
         audio.PlaySpawnSound();
         particles.EnableLife();
         coll.enabled = true;
-        health = 1;
+        health = Random.Range(1, 4);
+        particles.ChangeParticleColor(health - 1);
         rb.AddForce(direction * moveSpeed);
         rbMagnitude = rb.velocity.magnitude;
     }
