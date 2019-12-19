@@ -48,23 +48,8 @@ public class Bullet : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        // check collision with player
-        if (collision.gameObject.layer == 9)
-        {
-            IncreaseScore.Raise();
-            // decrement health and destroy bullet if health is 0
-            if (--health == 0)
-            {
-                PlayDeathNoSound();
-                audio.PlayDeathSound();
-            }
-            else
-            {
-                particles.ChangeParticleColor(health - 1);
-                audio.PlayClinkSound();
-            }
-        }
-        else if(collision.gameObject.layer == 8)
+        // if bullet collides with environment
+        if(collision.gameObject.layer == 8)
         {
             audio.PlayBounceSound();
         }
@@ -104,5 +89,22 @@ public class Bullet : MonoBehaviour
         coll.enabled = false;
         yield return new WaitForSeconds(0.5f);
         transform.position = Vector2.up * 60;
+    }
+
+    public void PlayerHit(Vector2 hitDir)
+    {
+        IncreaseScore.Raise();
+        // decrement health and destroy bullet if health is 0
+        if (--health == 0)
+        {
+            PlayDeathNoSound();
+            audio.PlayDeathSound();
+        }
+        else
+        {
+            rb.velocity = -rb.velocity;
+            particles.ChangeParticleColor(health - 1);
+            audio.PlayClinkSound();
+        }
     }
 }
