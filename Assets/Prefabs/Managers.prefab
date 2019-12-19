@@ -182,7 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartGame: {fileID: 11400000, guid: 549f2191174577547a3a68267936f0a5, type: 2}
-  RestartGameObj: {fileID: 656501367173746309}
+  GameOverInputs: {fileID: 656501367173746309}
+  bulletColors: []
 --- !u!114 &656501367007708905
 MonoBehaviour:
   m_ObjectHideFlags: 0

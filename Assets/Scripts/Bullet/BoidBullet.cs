@@ -41,6 +41,18 @@ public class BoidBullet : Bullet
         }
     }
 
+    public override void ReviveBullet(Vector2 direction)
+    {
+        StopAllCoroutines();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        audio.PlaySpawnSound();
+        particles.EnableLife();
+        coll.enabled = true;
+        health = 1;
+        rb.AddForce(direction * moveSpeed);
+        rbMagnitude = rb.velocity.magnitude;
+    }
+
     IEnumerator DelayDestruction()
     {
         yield return new WaitForSeconds(1.5f);

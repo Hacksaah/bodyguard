@@ -1136,6 +1136,34 @@ PrefabInstance:
       propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: bulletColors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: bulletColors.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 63b868c18e2ab0b4d87ab588988db71d,
+        type: 2}
+    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: bulletColors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: db65307f93301684ba307bb0318817e7,
+        type: 2}
+    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: bulletColors.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ce585279e55de574498fc2103bc911c4,
+        type: 2}
+    - target: {fileID: 656501367173746309, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: m_Name
+      value: GameOverInputs
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4674b39d53342e2418ff6b0ad62a4514, type: 3}
 --- !u!1001 &2130224001794272673
