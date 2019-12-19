@@ -98,11 +98,11 @@ public class Bullet : MonoBehaviour
         if (--health == 0)
         {
             PlayDeathNoSound();
-            audio.PlayDeathSound();
+            audio.PlayClinkSound();
         }
         else
         {
-            rb.velocity = -rb.velocity;
+            rb.velocity = -rb.velocity*1.35f;
             particles.ChangeParticleColor(health - 1);
             audio.PlayClinkSound();
         }

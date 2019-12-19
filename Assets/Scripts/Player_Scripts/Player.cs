@@ -36,6 +36,11 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;           
         }
+        if(other.gameObject.layer == 11)
+        {
+            Vector2 hitDir = other.transform.position - transform.position;
+            other.gameObject.GetComponent<Bullet>().PlayerHit(hitDir);
+        }
     }
 
     // Checks for jump input
