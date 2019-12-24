@@ -9,7 +9,7 @@ public class Deflection_Hitbox : MonoBehaviour
         //If collision is a projectile...
         if(collision.gameObject.layer == 11)
         {
-            Vector2 hitDir = collision.transform.position - transform.position;
+            Vector2 hitDir = transform.position - collision.transform.position;
             collision.GetComponent<Bullet>().PlayerHit(hitDir);
         }
     }

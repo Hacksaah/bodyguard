@@ -5,6 +5,8 @@ public class Bullet : MonoBehaviour
 {
     public BulletAudio audio;
     public GameEvent IncreaseScore;
+    public GameEvent IncreaseCritScore;
+
     [SerializeField]
     protected BulletParticleManager particles;
     [SerializeField]
@@ -12,7 +14,6 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected Rigidbody2D rb;
     protected CircleCollider2D coll;
-
 
     protected int health;
     protected float rbMagnitude;
@@ -93,16 +94,25 @@ public class Bullet : MonoBehaviour
 
     public void PlayerHit(Vector2 hitDir)
     {
-        IncreaseScore.Raise();
-        // decrement health and destroy bullet if health is 0
-        if (--health == 0)
+        //if the player hits the bullet from behind...
+        if(Vector2.Angle(hitDir, rb.velocity) > 115)
         {
+            health = 0;
+            IncreaseCritScore.Raise();
+            PlayDeathNoSound();
+            audio.PlayClinkSound();
+        }
+        // decrement health and destroy bullet if health is 0
+        else if (--health == 0)
+        {
+            IncreaseScore.Raise();
             PlayDeathNoSound();
             audio.PlayClinkSound();
         }
         else
         {
             rb.velocity = -rb.velocity*1.35f;
+            IncreaseScore.Raise();
             particles.ChangeParticleColor(health - 1);
             audio.PlayClinkSound();
         }
