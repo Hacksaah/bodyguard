@@ -21,24 +21,42 @@ public class BulletSpawner : MonoBehaviour
     //Actual countdown
     [SerializeField]
     protected float timerCD;
-    //Number of bullets to spawn for the line and random spawning patterns
-    [SerializeField]
-    protected int maxNumToSpawn;
+
+    public VarInt Score;
+
+    private int maxNumToSpawn;
+
+    private int minNumShotsFired;       // the minimum # of times the spawner will fire bullets during a wave
+    private int maxNumShotsFired;       // the maximum of times the spawner will fire bullets during a wave
+
+    private int minNumBulletsToFire;
+    private int maxNumBulletsToFire;
+
+    private int maxBulletsAllowed = 5;  // maximum number of bullets allowed on screen at a time
+
+    private int numBulletsToFire;
+    private int numShotsToFire;
+    private float timeBetweenShots;
 
     // Start is called before the first frame update
     void Start()
     {
+        maxBulletsAllowed = 5;
 
+        minNumShotsFired = 1;
+        maxNumShotsFired = 4;
+
+        minNumBulletsToFire = 1;
+        maxNumBulletsToFire = 3;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         if (timerCD <= 0)
         {
-            //Spawn bullet - Random number to decide what kind of spawning
-            SpawnBullet(Random.Range(0, 3));
+            numShotsToFire = Random.Range(minNumShotsFired, maxNumShotsFired);
+
             //Reset timer
             timerCD = timerMaxCD;
         }
@@ -47,6 +65,18 @@ public class BulletSpawner : MonoBehaviour
             //Count down to bullet spawn
             timerCD -= Time.deltaTime;
         }
+
+        if(timeBetweenShots <= 0 && numShotsToFire > 0)
+        {
+            SpawnBullet(Random.Range(0, 3));
+
+            numShotsToFire--;
+            timeBetweenShots = Random.Range(1.2f, 2.0f);
+        }
+        else
+        {
+            timeBetweenShots -= Time.deltaTime;
+        }        
     }
 
     //Adds bullet to the dead bullet list
@@ -54,7 +84,10 @@ public class BulletSpawner : MonoBehaviour
     {
         aliveBulletList.Remove(b);
         deadBulletList.Add(b);
+        if (numShotsToFire == 0 && aliveBulletList.Count == 0 && timerCD > 2.5f) timerCD = 2.5f;
     }
+
+
 
     //numForSpawnType: 
     //Random Spawn Pattern - 0
@@ -222,4 +255,6 @@ public class BulletSpawner : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
     }
+
+
 }
