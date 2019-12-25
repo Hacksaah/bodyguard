@@ -41,7 +41,7 @@ public class BoidBullet : Bullet
         }
     }
 
-    public override void ReviveBullet(Vector2 direction)
+    public override void ReviveBullet(Vector2 direction, int HP)
     {
         StopAllCoroutines();
         rb.bodyType = RigidbodyType2D.Dynamic;

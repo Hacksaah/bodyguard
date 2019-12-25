@@ -72,14 +72,14 @@ public class Bullet : MonoBehaviour
     }
 
     //Enables particles for bullet -- for bullet spawner
-    public virtual void ReviveBullet(Vector2 direction)
+    public virtual void ReviveBullet(Vector2 direction, int HP)
     {        
         StopAllCoroutines();
         rb.bodyType = RigidbodyType2D.Dynamic;
         audio.PlaySpawnSound();
         particles.EnableLife();
         coll.enabled = true;
-        health = Random.Range(1, 4);
+        health = HP;
         particles.ChangeParticleColor(health - 1);
         rb.AddForce(direction * moveSpeed);
         rbMagnitude = rb.velocity.magnitude;

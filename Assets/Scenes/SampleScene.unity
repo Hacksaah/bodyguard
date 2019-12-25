@@ -953,9 +953,8 @@ MonoBehaviour:
     type: 3}
   aliveBulletList: []
   deadBulletList: []
-  timerMaxCD: 5
   timerCD: 2
-  maxNumToSpawn: 10
+  Score: {fileID: 11400000, guid: 5ee0c7d3f562c634a864c60f549d1e19, type: 2}
 --- !u!4 &1737143691
 Transform:
   m_ObjectHideFlags: 0
