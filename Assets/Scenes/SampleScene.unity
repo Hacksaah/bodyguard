@@ -1036,6 +1036,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 656501366774388461, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: ScoreText
+      value: 
+      objectReference: {fileID: 1006265720}
+    - target: {fileID: 656501366774388461, guid: 4674b39d53342e2418ff6b0ad62a4514,
+        type: 3}
+      propertyPath: GameOverText
+      value: 
+      objectReference: {fileID: 840501358}
     - target: {fileID: 656501367235354633, guid: 4674b39d53342e2418ff6b0ad62a4514,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1091,16 +1101,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 656501366774388461, guid: 4674b39d53342e2418ff6b0ad62a4514,
-        type: 3}
-      propertyPath: ScoreText
-      value: 
-      objectReference: {fileID: 1006265720}
-    - target: {fileID: 656501366774388461, guid: 4674b39d53342e2418ff6b0ad62a4514,
-        type: 3}
-      propertyPath: GameOverText
-      value: 
-      objectReference: {fileID: 840501358}
     - target: {fileID: 656501367007708905, guid: 4674b39d53342e2418ff6b0ad62a4514,
         type: 3}
       propertyPath: Response.m_PersistentCalls.m_Calls.Array.size

@@ -63,7 +63,7 @@ public class BulletSpawner : MonoBehaviour
             numShotsToFire = Random.Range(minNumShotsFired, maxNumShotsFired);
             timeBetweenShots = 0;
 
-            //Reset timer
+            //Reset wave timer
             timerCD = timerMaxCD;
         }
         else
@@ -141,6 +141,7 @@ public class BulletSpawner : MonoBehaviour
         }
     }
 
+    // Returns a random direction to shoot a bullet
     Vector2 GetRandomShootDirection()
     {
         float xdir, ydir;        
@@ -151,6 +152,7 @@ public class BulletSpawner : MonoBehaviour
         return new Vector2(xdir, ydir).normalized;
     }
 
+    // shoots bullets in random directions
     IEnumerator SpawnRandom(int spawnCount)
     {
         int i = 0;
@@ -192,9 +194,26 @@ public class BulletSpawner : MonoBehaviour
 
     IEnumerator SpawnLine(int spawnCount)
     {
+        //if dir = 0 then spawn leftward | if dir = 1 then spawn right
+        int dir = Random.Range(0, 2);
+        float xMin = -6.0f;
+        float xMax = 6.0f;
+        if (spawnCount > 14) spawnCount = 14;
+        if(spawnCount > 2 && dir == 0)
+        {
+            xMin = -7.0f + spawnCount;
+            xMax = 7.0f;
+        }
+        else if(spawnCount > 2 && dir == 1)
+        {
+            xMin = -7.0f;
+            xMax = 7.0f - spawnCount;
+        }
+
         //Holds the X pos for spawns that need to spawn near each other
-        float randX = Random.Range(-6.0f, 6.0f);
+        float randX = Random.Range(xMin, xMax);
         int i = 0;
+        int offset = 0;
         Vector2 shootDirection = GetRandomShootDirection();
         while (i < spawnCount)
         {
@@ -202,7 +221,7 @@ public class BulletSpawner : MonoBehaviour
             {
                 //Use old bullets and remove them from the list
                 //Number of balls to spawn
-                deadBulletList[0].transform.position = new Vector2(randX + i, 4.0f);
+                deadBulletList[0].transform.position = new Vector2(randX + offset, 4.0f);
                 deadBulletList[0].GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                 aliveBulletList.Add(deadBulletList[0]);
                 deadBulletList.Remove(deadBulletList[0]);
@@ -210,10 +229,14 @@ public class BulletSpawner : MonoBehaviour
             else if(aliveBulletList.Count < maxBulletsAllowed)
             {
                 //Make new bullets
-                GameObject newBullet = Instantiate(bulletPrefab, new Vector2(randX + i, 4.0f), Quaternion.identity);
+                GameObject newBullet = Instantiate(bulletPrefab, new Vector2(randX + offset, 4.0f), Quaternion.identity);
                 newBullet.GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                 aliveBulletList.Add(newBullet);                
             }
+
+            if (dir == 0) offset--;
+            else offset++;
+
             i++;
             yield return new WaitForSeconds(0.2f);
         }
@@ -236,12 +259,11 @@ public class BulletSpawner : MonoBehaviour
                 {
                     // top
                     case 0:
-                        //Top Right
+                        // Top Right
                         deadBulletList[0].transform.position = new Vector2(randX + offset, 3.7f + offset);
                         deadBulletList[0].GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                         aliveBulletList.Add(deadBulletList[0]);
-
-                        //Top Left
+                        // Top Left
                         deadBulletList[1].transform.position = new Vector2(randX - offset, 3.7f + offset);
                         deadBulletList[1].GetComponent<Bullet>().ReviveBullet(negShootDir, bulletHP);
                         aliveBulletList.Add(deadBulletList[1]);
@@ -249,12 +271,11 @@ public class BulletSpawner : MonoBehaviour
 
                     // middle
                     case 1:
-                        //Middle
+                        // Middle
                         deadBulletList[0].transform.position = new Vector2(randX, 3.7f);
                         deadBulletList[0].GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                         aliveBulletList.Add(deadBulletList[0]);
-
-                        //Middle
+                        // neg-Middle
                         deadBulletList[1].transform.position = new Vector2(randX, 3.7f);
                         deadBulletList[1].GetComponent<Bullet>().ReviveBullet(negShootDir, bulletHP);
                         aliveBulletList.Add(deadBulletList[1]);
@@ -267,7 +288,6 @@ public class BulletSpawner : MonoBehaviour
                         deadBulletList[0].transform.position = new Vector2(randX - offset, 3.7f - offset);
                         deadBulletList[0].GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                         aliveBulletList.Add(deadBulletList[0]);
-
                         // Bottom Left
                         deadBulletList[1].transform.position = new Vector2(randX + offset, 3.7f - offset);
                         deadBulletList[1].GetComponent<Bullet>().ReviveBullet(negShootDir, bulletHP);
@@ -286,11 +306,11 @@ public class BulletSpawner : MonoBehaviour
                 {
                     // top
                     case 0:
-                        //Top Right
+                        // Top Right
                         GameObject newBullet = Instantiate(bulletPrefab, new Vector2(randX + offset, 3.7f + offset), Quaternion.identity);
                         newBullet.GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                         aliveBulletList.Add(newBullet);
-                        //Top Left
+                        // Top Left
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX - offset, 3.7f + offset), Quaternion.identity);
                         newBullet.GetComponent<Bullet>().ReviveBullet(negShootDir, bulletHP);
                         aliveBulletList.Add(newBullet);
@@ -298,12 +318,11 @@ public class BulletSpawner : MonoBehaviour
 
                     // middle
                     case 1:
-                        //Middle
+                        // Middle
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX, 3.7f), Quaternion.identity);
                         newBullet.GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                         aliveBulletList.Add(newBullet);
-
-                        //Middle
+                        // neg-Middle
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX, 3.7f), Quaternion.identity);
                         newBullet.GetComponent<Bullet>().ReviveBullet(negShootDir, bulletHP);
                         aliveBulletList.Add(newBullet);
@@ -311,11 +330,11 @@ public class BulletSpawner : MonoBehaviour
                     
                     // top
                     case 2:
-                        //Bottom Right
+                        // Bottom Right
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX - offset, 3.7f - offset), Quaternion.identity);
                         newBullet.GetComponent<Bullet>().ReviveBullet(shootDirection, bulletHP);
                         aliveBulletList.Add(newBullet);
-                        //Bottom Left
+                        // Bottom Left
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX + offset, 3.7f - offset), Quaternion.identity);
                         newBullet.GetComponent<Bullet>().ReviveBullet(negShootDir, bulletHP);
                         aliveBulletList.Add(newBullet);
