@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
-    //Bullet prefab
+    //Bullet prefabs
     public GameObject bulletPrefab;
     public GameObject boidBulletPrefab;
 
     //List of all bullets
     [SerializeField]
-    protected List<GameObject> aliveBulletList;
+    private List<GameObject> aliveBulletList;
     //List to be object pooled
     [SerializeField]
     public List<GameObject> deadBulletList;
-    //Max time until next bullet wave
-    private float timerMaxCD = 30.0f;
+
     //Actual countdown
     [SerializeField]
     protected float timerCD;
+    //Max time until next bullet wave
+    private float timerMaxCD = 30.0f;
 
     public VarInt Score;
 
@@ -51,6 +52,7 @@ public class BulletSpawner : MonoBehaviour
         maxNumBulletsToFire = 3;
 
         timerCD = 2.5f;
+        timerMaxCD = 30.0f;
 
         bulletHP = 1;
     }
@@ -103,7 +105,8 @@ public class BulletSpawner : MonoBehaviour
         {
             maxBulletsAllowed++;
             maxNumShotsFired++;
-            maxNumBulletsToFire++;            
+            maxNumBulletsToFire++;
+            timerMaxCD--;
         }
     }
 
