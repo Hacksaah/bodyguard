@@ -65,7 +65,7 @@ public class Bullet : MonoBehaviour
     public void PlayDeathNoSound()
     {
         particles.EnableDeath();
-        rb.bodyType = RigidbodyType2D.Static;
+        rb.simulated = false;
         //Add bullet to spawner list of dead bullets -- for bullet spawner
         bSpawner.AddBulletToDeadList(gameObject);
         StartCoroutine(DeactivateCollider());
@@ -75,6 +75,8 @@ public class Bullet : MonoBehaviour
     public virtual void ReviveBullet(Vector2 direction, int HP)
     {        
         StopAllCoroutines();
+        rb.simulated = true;
+        rb.bodyType = RigidbodyType2D.Static;
         rb.bodyType = RigidbodyType2D.Dynamic;
         audio.PlaySpawnSound();
         particles.EnableLife();
@@ -92,7 +94,7 @@ public class Bullet : MonoBehaviour
         transform.position = Vector2.up * 60;
     }
 
-    public void PlayerHit(Vector2 hitDir)
+    public virtual void PlayerHit(Vector2 hitDir)
     {
         //if the player hits the bullet from behind...
         if(Vector2.Angle(hitDir, rb.velocity) > 115)
