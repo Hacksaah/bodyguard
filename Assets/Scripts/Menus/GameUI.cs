@@ -24,6 +24,12 @@ public class GameUI : MonoBehaviour
         ScoreText.text = "Score: " + Score.value;
     }
 
+    public void IncreaseCritScore()
+    {
+        Score.value += 3;
+        ScoreText.text = "Score: " + Score.value;
+    }
+
     public void EnableGameOverUI()
     {
         GameOverText.SetActive(true);

@@ -5,6 +5,8 @@ public class Bullet : MonoBehaviour
 {
     public BulletAudio audio;
     public GameEvent IncreaseScore;
+    public GameEvent IncreaseCritScore;
+
     [SerializeField]
     protected BulletParticleManager particles;
     [SerializeField]
@@ -12,7 +14,6 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected Rigidbody2D rb;
     protected CircleCollider2D coll;
-
 
     protected int health;
     protected float rbMagnitude;
@@ -48,23 +49,8 @@ public class Bullet : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        // check collision with player
-        if (collision.gameObject.layer == 9)
-        {
-            IncreaseScore.Raise();
-            // decrement health and destroy bullet if health is 0
-            if (--health == 0)
-            {
-                PlayDeathNoSound();
-                audio.PlayDeathSound();
-            }
-            else
-            {
-                particles.ChangeParticleColor(health - 1);
-                audio.PlayClinkSound();
-            }
-        }
-        else if(collision.gameObject.layer == 8)
+        // if bullet collides with environment
+        if(collision.gameObject.layer == 8)
         {
             audio.PlayBounceSound();
         }
@@ -104,5 +90,31 @@ public class Bullet : MonoBehaviour
         coll.enabled = false;
         yield return new WaitForSeconds(0.5f);
         transform.position = Vector2.up * 60;
+    }
+
+    public void PlayerHit(Vector2 hitDir)
+    {
+        //if the player hits the bullet from behind...
+        if(Vector2.Angle(hitDir, rb.velocity) > 115)
+        {
+            health = 0;
+            IncreaseCritScore.Raise();
+            PlayDeathNoSound();
+            audio.PlayClinkSound();
+        }
+        // decrement health and destroy bullet if health is 0
+        else if (--health == 0)
+        {
+            IncreaseScore.Raise();
+            PlayDeathNoSound();
+            audio.PlayClinkSound();
+        }
+        else
+        {
+            rb.velocity = -rb.velocity*1.35f;
+            IncreaseScore.Raise();
+            particles.ChangeParticleColor(health - 1);
+            audio.PlayClinkSound();
+        }
     }
 }

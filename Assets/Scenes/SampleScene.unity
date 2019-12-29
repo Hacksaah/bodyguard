@@ -631,6 +631,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 656501366011631279}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166854612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 656501366774388462, guid: 4674b39d53342e2418ff6b0ad62a4514,
+    type: 3}
+  m_PrefabInstance: {fileID: 656501366011631279}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1166854617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 656501366774388461, guid: 4674b39d53342e2418ff6b0ad62a4514,
+    type: 3}
+  m_PrefabInstance: {fileID: 656501366011631279}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166854612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c034c60386722e40ac93dd3bbbaa7fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1166854618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166854612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba72f03604438454ab8b8ecee137639f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 403709d73d7131c4a825d4288e02e48d, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1166854617}
+        m_MethodName: IncreaseCritScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1346177416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,6 +1454,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5842591476819196542, guid: 40bd10851fa76844395333348bce3800,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40bd10851fa76844395333348bce3800, type: 3}
 --- !u!1001 &6063463416572502906
@@ -1480,6 +1532,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Deflect_HitBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063463416783196198, guid: 043471a4cae3af843af3800b1882ab78,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.30602205
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063463416783196198, guid: 043471a4cae3af843af3800b1882ab78,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.03013888
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063463416783196198, guid: 043471a4cae3af843af3800b1882ab78,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063463416783196198, guid: 043471a4cae3af843af3800b1882ab78,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.58
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 043471a4cae3af843af3800b1882ab78, type: 3}

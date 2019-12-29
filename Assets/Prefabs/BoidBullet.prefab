@@ -14471,6 +14471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio: {fileID: 3560784340226995025}
   IncreaseScore: {fileID: 11400000, guid: ecc2d697f7472aa4385c8536cce42012, type: 2}
+  IncreaseCritScore: {fileID: 11400000, guid: 403709d73d7131c4a825d4288e02e48d, type: 2}
   particles: {fileID: 6457735436699517496}
   moveSpeed: 300
   rb: {fileID: 0}
