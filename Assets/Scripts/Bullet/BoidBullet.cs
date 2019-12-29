@@ -34,14 +34,9 @@ public class BoidBullet : Bullet
     override protected void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
-        if (health <= 0)
-        {
-            bSpawner.deadBulletList.Remove(gameObject);
-            StartCoroutine(DelayDestruction());
-        }
     }
 
-    public override void ReviveBullet(Vector2 direction)
+    public override void ReviveBullet(Vector2 direction, int HP)
     {
         StopAllCoroutines();
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -51,6 +46,13 @@ public class BoidBullet : Bullet
         health = 1;
         rb.AddForce(direction * moveSpeed);
         rbMagnitude = rb.velocity.magnitude;
+    }
+
+    public override void PlayerHit(Vector2 hitDir)
+    {
+        base.PlayerHit(hitDir);
+        bSpawner.deadBulletList.Remove(gameObject);
+        StartCoroutine(DelayDestruction());
     }
 
     IEnumerator DelayDestruction()
