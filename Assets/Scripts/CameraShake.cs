@@ -16,6 +16,7 @@ public class CameraShake : MonoBehaviour
         Vector2 initialPos = transform.position;
         float xRand = Random.Range(-.5f, .5f);
         float s = -1.0f;
+        Debug.Log("Shake");
         if (xRand > 0)
             s += xRand;
         else
