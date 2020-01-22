@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    public VarColor playerColor;
+
     public GameObject explosionCol;
+    private ColorLerper colorLerp;
 
     private Rigidbody2D rb;
     private CircleCollider2D col;
@@ -22,6 +25,7 @@ public class Bomb : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
+        colorLerp = GetComponent<ColorLerper>();
         StartCoroutine(SetFuse());
     }
 
@@ -34,17 +38,26 @@ public class Bomb : MonoBehaviour
     //Bombs have a ticking mechanic
     IEnumerator SetFuse()
     {
-        yield return new WaitForSeconds(fuseTime);
+        fuseTimer = fuseTime;
+        while(fuseTimer >= 0)
+        {
+            if (fuseTimer > 1) colorLerp.speed = 2f;
+            else if (fuseTimer < 0.5) colorLerp.speed = 9f;
+            fuseTimer -= Time.deltaTime;
+            yield return null;
+        }
         DetonateBomb();
     }
 
     //Bombs explode
     void DetonateBomb()
     {
-        Debug.Log("Detonate bomb");
         explosionCol.SetActive(true);
     }
 
-    //Bombs can also destroy bullets if deflected
-
+    public void PlayerHit()
+    {
+        colorLerp.StopAllCoroutines();
+        GetComponent<SpriteRenderer>().color = playerColor.value;
+    }
 }

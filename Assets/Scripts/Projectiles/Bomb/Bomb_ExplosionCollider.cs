@@ -6,10 +6,13 @@ public class Bomb_ExplosionCollider : MonoBehaviour
 {
     private CircleCollider2D col;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         col = GetComponent<CircleCollider2D>();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {        
         gameObject.SetActive(false);
     }
 

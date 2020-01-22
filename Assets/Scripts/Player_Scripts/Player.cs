@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
                 fastFallCamShake.Raise();
             }
         }
-        if(other.gameObject.layer == 11)
+        if (other.gameObject.layer == 11)
         {
             Vector2 hitDir = other.transform.position - transform.position;
             other.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
