@@ -4,88 +4,51 @@ using UnityEngine;
 
 public class CameraFastFall : MonoBehaviour
 {
-    [SerializeField]
-    private Transform camTransform;
+    public float shakeDuration = 0.3f;
 
-    private float shakeDuration = 0f;
+    public VarInt moveDir;
 
-    private float shakeMagnitude = 0.6f;
+    private float shakeTimer = 0f;
 
     private float dampingSpeed = 2.0f;
 
     Vector3 initialPos;
+    float xOffset;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        initialPos = camTransform.position;
+        initialPos = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RunCameraShake()
     {
-        //Shake 1: Is more shakey, goes up and down multiple times randomly before settling
-        //0.2f second duration?
-        /*
-        if (shakeDuration > 0)
-        {
-            camTransform.localPosition = initialPos + new Vector3(0.0f, Random.value - 0.5f, 0.0f) * 0.6f;
-
-            shakeDuration -= Time.deltaTime * dampingSpeed;
-        }
+        shakeTimer = shakeDuration;
+        if (moveDir.value > 0)
+            xOffset = -0.015f;
+        else if (moveDir.value < 0)
+            xOffset = 0.015f;
         else
-        {
-            shakeDuration = 0f;
-            camTransform.localPosition = initialPos;
-        }
-        */
-
-
-        //Shake 2: Has a cleaner 'thump', moves smoothly up before falling back down
-        //0.2f second duration?
-
-        if (shakeDuration > 0)
-        {
-            camTransform.localPosition += new Vector3(0.0f, 0.025f, 0.0f);
-            shakeDuration -= Time.deltaTime * dampingSpeed;
-        }
-        else if(shakeDuration <= 0f)
-        {
-            shakeDuration = 0f;
-            if (camTransform.localPosition != initialPos)
-            {
-                camTransform.localPosition -= new Vector3(0.0f, 0.025f, 0.0f);
-            }
-        }
-        
-
-
-        //Shake 3: Has a more general feel, vibrates the screen instead of an up and down motion
-        //0.4f second duration?
-        /*
-        if (shakeDuration > 0)
-        {
-            camTransform.localPosition = initialPos + new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0.0f) * 0.2f;
-
-            shakeDuration -= Time.deltaTime * dampingSpeed;
-        }
-        else
-        {
-            shakeDuration = 0f;
-            camTransform.localPosition = initialPos;
-        }
-        */
-
-        //For testing: Hit space to activate current camera shake
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SetShakeDuration(0.4f);
-        }
+            xOffset = 0;
+        StopAllCoroutines();
+        transform.localPosition = initialPos;
+        StartCoroutine(ShakeCamera());
     }
 
-    public void SetShakeDuration(float shakeDur)
+    IEnumerator ShakeCamera()
     {
-        shakeDuration = shakeDur;
+        while(shakeTimer > 0)
+        {
+            transform.localPosition += new Vector3(xOffset, 0.025f, 0.0f);
+            shakeTimer -= Time.deltaTime * dampingSpeed;
+            yield return null;
+        }
+        shakeTimer = 0;
+        while(transform.localPosition != initialPos)
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initialPos, 0.075f);
+            yield return null;
+        }
     }
 }

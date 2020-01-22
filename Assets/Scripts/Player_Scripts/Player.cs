@@ -12,18 +12,15 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
 
     public bool isGrounded = false;
-
-    //Tyler addition
     public bool isFastFalling = false;
-    public CameraFastFall camFall;
+
+    public VarInt moveDir;
+    public GameEvent fastFallCamShake;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        //Tyler addition
-        camFall = GetComponent<CameraFastFall>();
     }
 
     private void FixedUpdate()
@@ -34,14 +31,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         MovePlayer();
-
-        //Tyler addition
-        if (isFastFalling && isGrounded)
-        {
-            Debug.Log("Screen Shake");
-            isFastFalling = false;
-            camFall.SetShakeDuration(0.3f);
-        }
     }
 
     // This collision function checks to see if the player is standing on a platform
@@ -49,7 +38,18 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "platform")
         {
-            isGrounded = true;            
+            isGrounded = true;
+
+            // fast fall check :: if true, then the camera bobs
+            if(isFastFalling)
+            {
+                isFastFalling = false;
+                // checks player's X velocity to determine if camera should
+                if (rb.velocity.x >= 11.5) moveDir.value = 1;
+                else if (rb.velocity.x <= -11.5) moveDir.value = -1;
+                else moveDir.value = 0;
+                fastFallCamShake.Raise();
+            }
         }
         if(other.gameObject.layer == 11)
         {
@@ -76,8 +76,7 @@ public class Player : MonoBehaviour
             Vector2 v = rb.velocity;
             v.y = -16;
             rb.velocity = v;
-
-            //Tyler addition
+            
             isFastFalling = true;
         }
     }
