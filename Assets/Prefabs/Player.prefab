@@ -103,6 +103,9 @@ MonoBehaviour:
   JumpForce: 5000
   fastFall: -14
   isGrounded: 0
+  isFastFalling: 0
+  moveDir: {fileID: 11400000, guid: 6c2527d74de5407409d3d0409fc371ad, type: 2}
+  fastFallCamShake: {fileID: 11400000, guid: f8c4e0aa1c8a61b49852e9c84f298739, type: 2}
 --- !u!50 &6063463416783196199
 Rigidbody2D:
   serializedVersion: 4
