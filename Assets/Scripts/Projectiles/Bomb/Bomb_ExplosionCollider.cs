@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bomb_ExplosionCollider : MonoBehaviour
 {
     private CircleCollider2D col;
+    public bool isFriendly = false;
 
     private void Awake()
     {
@@ -30,5 +31,23 @@ public class Bomb_ExplosionCollider : MonoBehaviour
             yield return null;
         }
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (isFriendly && collision.gameObject.layer == 11)
+        {
+            Vector2 hitDir = collision.transform.position - transform.position;
+            collision.gameObject.GetComponent<Bullet>().PlayerHit(hitDir);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isFriendly && collision.gameObject.layer == 11)
+        {
+            Vector2 hitDir = collision.transform.position - transform.position;
+            collision.gameObject.GetComponent<Bullet>().PlayerHit(hitDir);
+        }
     }
 }

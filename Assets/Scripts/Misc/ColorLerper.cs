@@ -19,12 +19,6 @@ public class ColorLerper : MonoBehaviour
         StartCoroutine(LerpColor2());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     IEnumerator LerpColor2()
     {
         while(rend.color != color2.value)

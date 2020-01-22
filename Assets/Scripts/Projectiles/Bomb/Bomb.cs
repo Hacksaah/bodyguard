@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : MonoBehaviour
+public class Bomb : Bullet
 {
+    public int hitForce = 200;
     public VarColor playerColor;
 
     public GameObject explosionCol;
@@ -17,7 +18,8 @@ public class Bomb : MonoBehaviour
 
     private void Awake()
     {
-        
+        base.Awake();
+        health = 1;
     }
 
     // Start is called before the first frame update
@@ -52,12 +54,16 @@ public class Bomb : MonoBehaviour
     //Bombs explode
     void DetonateBomb()
     {
+        
         explosionCol.SetActive(true);
     }
 
-    public void PlayerHit()
+    override public void PlayerHit(Vector2 hitDir)
     {
         colorLerp.StopAllCoroutines();
+        explosionCol.GetComponent<Bomb_ExplosionCollider>().isFriendly = true;
+        rb.velocity.Set(rb.velocity.x, 0);
+        rb.AddForce(hitDir * hitForce);
         GetComponent<SpriteRenderer>().color = playerColor.value;
     }
 }
