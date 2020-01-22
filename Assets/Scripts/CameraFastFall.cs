@@ -47,15 +47,15 @@ public class CameraFastFall : MonoBehaviour
 
         if (shakeDuration > 0)
         {
-            camTransform.localPosition += new Vector3(0.0f, 0.05f, 0.0f);
+            camTransform.localPosition += new Vector3(0.0f, 0.025f, 0.0f);
             shakeDuration -= Time.deltaTime * dampingSpeed;
         }
         else if(shakeDuration <= 0f)
         {
             shakeDuration = 0f;
-            while(camTransform.localPosition != initialPos)
+            if (camTransform.localPosition != initialPos)
             {
-                camTransform.localPosition -= new Vector3(0.0f, 0.05f, 0.0f);
+                camTransform.localPosition -= new Vector3(0.0f, 0.025f, 0.0f);
             }
         }
         
@@ -80,7 +80,7 @@ public class CameraFastFall : MonoBehaviour
         //For testing: Hit space to activate current camera shake
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SetShakeDuration(0.2f);
+            SetShakeDuration(0.4f);
         }
     }
 

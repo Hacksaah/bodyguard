@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Screen Shake");
             isFastFalling = false;
-            camFall.SetShakeDuration(0.2f);
+            camFall.SetShakeDuration(0.3f);
         }
     }
 
