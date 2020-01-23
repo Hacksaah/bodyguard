@@ -100,7 +100,7 @@ MonoBehaviour:
   IncreaseScore: {fileID: 0}
   IncreaseCritScore: {fileID: 0}
   rb: {fileID: 0}
-  hitForce: 200
+  hitForce: 450
   playerColor: {fileID: 11400000, guid: b3af5011af0c2ab479bdde180830d6d5, type: 2}
   explosionCol: {fileID: 233468936576406772}
   fuseTime: 5

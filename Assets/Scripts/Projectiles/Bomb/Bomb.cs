@@ -33,6 +33,15 @@ public class Bomb : Projectile
         
     }
 
+    override public void PlayerHit(Vector2 hitDir)
+    {
+        colorLerp.StopAllCoroutines();
+        isFriendly = true;
+        rb.velocity.Set(rb.velocity.x, 0);
+        rb.AddForce(-hitDir * hitForce + Vector2.up * 250);
+        GetComponent<SpriteRenderer>().color = playerColor.value;
+    }
+
     //Bombs have a ticking mechanic
     IEnumerator SetFuse()
     {
@@ -52,14 +61,5 @@ public class Bomb : Projectile
     {        
         explosionCol.SetActive(true);
         explosionCol.GetComponent<Bomb_ExplosionCollider>().ActivateCollider(isFriendly);
-    }
-
-    override public void PlayerHit(Vector2 hitDir)
-    {
-        colorLerp.StopAllCoroutines();
-        isFriendly = true;
-        rb.velocity.Set(rb.velocity.x, 0);
-        rb.AddForce(hitDir * hitForce);
-        GetComponent<SpriteRenderer>().color = playerColor.value;
-    }
+    }    
 }
