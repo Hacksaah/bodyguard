@@ -58,13 +58,11 @@ public class Bomb : Projectile
         StopAllCoroutines();
         health = HP;
         isFriendly = false;
-        gameObject.layer = 11;
-        colorLerp.EnableTwoColorLerp();
+        gameObject.layer = 11;        
         coll.enabled = true;
-        rb.simulated = true;
-        rb.bodyType = RigidbodyType2D.Static;
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.AddForce(direction * Random.Range(250, 375));
+        colorLerp.EnableTwoColorLerp();
         StartCoroutine(SetFuse());
     }
 
