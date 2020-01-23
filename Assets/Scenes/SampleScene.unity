@@ -270,8 +270,8 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Shake_Camera
+      - m_Target: {fileID: 519420033}
+        m_MethodName: RunCameraShake
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1106,29 +1106,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
-        type: 3}
-      propertyPath: bulletColors.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
-        type: 3}
-      propertyPath: bulletColors.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 63b868c18e2ab0b4d87ab588988db71d,
-        type: 2}
-    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
-        type: 3}
-      propertyPath: bulletColors.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: db65307f93301684ba307bb0318817e7,
-        type: 2}
-    - target: {fileID: 656501367007708904, guid: 4674b39d53342e2418ff6b0ad62a4514,
-        type: 3}
-      propertyPath: bulletColors.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: ce585279e55de574498fc2103bc911c4,
-        type: 2}
     - target: {fileID: 656501367007708905, guid: 4674b39d53342e2418ff6b0ad62a4514,
         type: 3}
       propertyPath: Response.m_PersistentCalls.m_Calls.Array.size
@@ -1164,7 +1141,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverInputs
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5256336882184784698, guid: 4674b39d53342e2418ff6b0ad62a4514, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4674b39d53342e2418ff6b0ad62a4514, type: 3}
 --- !u!1001 &2130224001794272673
 PrefabInstance:

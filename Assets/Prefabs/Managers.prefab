@@ -183,7 +183,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartGame: {fileID: 11400000, guid: 549f2191174577547a3a68267936f0a5, type: 2}
   GameOverInputs: {fileID: 656501367173746309}
-  bulletColors: []
+  bulletColors:
+  - {fileID: 11400000, guid: db65307f93301684ba307bb0318817e7, type: 2}
+  - {fileID: 11400000, guid: ce585279e55de574498fc2103bc911c4, type: 2}
+  - {fileID: 11400000, guid: 63b868c18e2ab0b4d87ab588988db71d, type: 2}
 --- !u!114 &656501367007708905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5396801103335713773}
-  - component: {fileID: 5256336882184784698}
+  - component: {fileID: 1197332722615362752}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -320,7 +323,7 @@ Transform:
   m_Father: {fileID: 656501367235354633}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5256336882184784698
+--- !u!114 &1197332722615362752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,7 +332,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 705314517312675895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c28a746d43cc64c985328dc884283a, type: 3}
+  m_Script: {fileID: 11500000, guid: e62365371c6aaac46b818c0e50b39c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3038444117036435220, guid: 8717ae439ef1f2f419b1857e169cc2c9,
@@ -338,5 +341,5 @@ MonoBehaviour:
     type: 3}
   aliveBulletList: []
   deadBulletList: []
-  timerCD: 2
+  timerCD: 2.5
   Score: {fileID: 11400000, guid: 5ee0c7d3f562c634a864c60f549d1e19, type: 2}

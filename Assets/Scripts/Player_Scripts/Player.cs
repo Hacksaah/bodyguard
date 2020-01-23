@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         if(other.gameObject.layer == 11)
         {
             Vector2 hitDir = other.transform.position - transform.position;
-            other.gameObject.GetComponent<Bullet>().PlayerHit(hitDir);
+            other.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
         }
     }
 
