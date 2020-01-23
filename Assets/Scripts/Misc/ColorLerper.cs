@@ -15,8 +15,12 @@ public class ColorLerper : MonoBehaviour
     private void Start()
     {
         rend = GetComponent<SpriteRenderer>();
-        startTime = Time.time;
-        StartCoroutine(LerpColor2());
+        startTime = Time.time;        
+    }
+
+    public void EnableTwoColorLerp()
+    {
+        StartCoroutine(LerpColor1());
     }
 
     IEnumerator LerpColor2()
