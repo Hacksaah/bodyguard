@@ -6,7 +6,6 @@ public class BulletAudio : MonoBehaviour
 {
     public AudioClip Spawn;
     public AudioClip Bounce;
-    public AudioClip Death;
     public AudioClip Clink;
 
     public AudioSource audioSource;
@@ -26,12 +25,6 @@ public class BulletAudio : MonoBehaviour
     public void PlayClinkSound()
     {
         audioSource.clip = Clink;
-        audioSource.Play();
-    }
-
-    public void PlayDeathSound()
-    {
-        audioSource.clip = Death;
         audioSource.Play();
     }
 }

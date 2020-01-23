@@ -88,7 +88,7 @@ public class Bullet : Projectile
         particles.EnableDeath();
         rb.simulated = false;
         //Add bullet to spawner list of dead bullets -- for bullet spawner
-        bSpawner.AddBulletToDeadList(gameObject);
+        pSpawner.AddBulletToDeadList(gameObject);
         StartCoroutine(DeactivateCollider());
     }
 

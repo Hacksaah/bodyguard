@@ -8,8 +8,13 @@ public class Protect_target : MonoBehaviour
 
     protected Rigidbody2D rb;
 
+    public AudioSource audioSource; // Note :: audioSource.clip must contain audio clip
     public GameEvent GameOverEvent;
 
+    private void Awake()
+    {
+        audioSource.Pause();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -42,9 +47,9 @@ public class Protect_target : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //If a projectile collides with the protect target the game ends
-        if (collision.gameObject.layer == 11)
+        if (collision.gameObject.tag == "Harmful" && collision.gameObject.GetComponent<Projectile>().isFriendly == false)
         {
-            collision.gameObject.GetComponent<Bullet>().audio.PlayDeathSound();
+            audioSource.Play();
             GameOverEvent.Raise();
         }
     }

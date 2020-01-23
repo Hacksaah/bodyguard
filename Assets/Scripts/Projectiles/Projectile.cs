@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public bool isFriendly = false;
     public GameEvent IncreaseScore;
     public GameEvent IncreaseCritScore;
 
@@ -11,19 +12,18 @@ public class Projectile : MonoBehaviour
     protected Rigidbody2D rb;
     protected CircleCollider2D coll;
     protected int health;
-
     public int Health
     {
         get { return health; }
-    }
+    }    
 
     //bullet spawner reference
-    protected ProjectileSpawner bSpawner;
+    protected ProjectileSpawner pSpawner;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        bSpawner = FindObjectOfType<ProjectileSpawner>();
+        pSpawner = FindObjectOfType<ProjectileSpawner>();
         coll = GetComponent<CircleCollider2D>();
     }
 

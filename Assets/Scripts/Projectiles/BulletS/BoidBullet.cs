@@ -63,7 +63,7 @@ public class BoidBullet : Projectile
             particles.ChangeParticleColor(health - 1);
             audio.PlayClinkSound();
         }
-        bSpawner.deadBulletList.Remove(gameObject);
+        pSpawner.deadBulletList.Remove(gameObject);
         StartCoroutine(DelayDestruction());
     }
 
@@ -99,7 +99,7 @@ public class BoidBullet : Projectile
         particles.EnableDeath();
         rb.simulated = false;
         //Add bullet to spawner list of dead bullets -- for bullet spawner
-        bSpawner.AddBulletToDeadList(gameObject);
+        pSpawner.AddBulletToDeadList(gameObject);
         StartCoroutine(DeactivateCollider());
     }    
 
