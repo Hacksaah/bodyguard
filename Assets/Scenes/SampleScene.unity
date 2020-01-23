@@ -819,7 +819,7 @@ GameObject:
   - component: {fileID: 1608288213}
   m_Layer: 8
   m_Name: Floor
-  m_TagString: platform
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
