@@ -18,12 +18,12 @@ public class Projectile : MonoBehaviour
     }
 
     //bullet spawner reference
-    protected BulletSpawner bSpawner;
+    protected ProjectileSpawner bSpawner;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        bSpawner = FindObjectOfType<BulletSpawner>();
+        bSpawner = FindObjectOfType<ProjectileSpawner>();
         coll = GetComponent<CircleCollider2D>();
     }
 
