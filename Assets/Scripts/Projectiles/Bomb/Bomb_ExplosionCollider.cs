@@ -20,6 +20,8 @@ public class Bomb_ExplosionCollider : MonoBehaviour
     public void ActivateCollider(bool _isFriendly)
     {
         isFriendly = _isFriendly;
+        if (isFriendly) gameObject.tag = "Untagged";
+        else gameObject.tag = "Harmful";
         StartCoroutine(DecreaseHitBoxSize());
     }
 
@@ -37,10 +39,8 @@ public class Bomb_ExplosionCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Something entered :: " + collision.name);
         if (isFriendly && collision.gameObject.layer == 11)
         {
-
             Vector2 hitDir = collision.transform.position - transform.position;
             collision.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
         }
@@ -48,10 +48,8 @@ public class Bomb_ExplosionCollider : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("Something here :: " + collision.name);
         if (isFriendly && collision.gameObject.layer == 11)
-        {
-            
+        {            
             Vector2 hitDir = collision.transform.position - transform.position;
             collision.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
         }

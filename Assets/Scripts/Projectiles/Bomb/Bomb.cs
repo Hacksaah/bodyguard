@@ -27,12 +27,6 @@ public class Bomb : Projectile
         StartCoroutine(SetFuse());
     }
 
-    // Update is called once per frame
-    void Update() 
-    {
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // if friendly and collides with a projectile
@@ -49,6 +43,7 @@ public class Bomb : Projectile
         isFriendly = true;
         gameObject.layer = 10;
         rb.velocity.Set(rb.velocity.x, 0);
+        if (hitDir.y < 0) hitDir.y = 0;
         rb.AddForce(hitDir * hitForce + Vector2.up * 250);
         GetComponent<SpriteRenderer>().color = playerColor.value;
     }
@@ -61,7 +56,7 @@ public class Bomb : Projectile
         gameObject.layer = 11;        
         coll.enabled = true;
         rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.AddForce(direction * Random.Range(250, 375));
+        rb.AddForce(direction);
         colorLerp.EnableTwoColorLerp();
         StartCoroutine(SetFuse());
     }

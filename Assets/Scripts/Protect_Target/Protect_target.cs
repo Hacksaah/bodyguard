@@ -47,7 +47,7 @@ public class Protect_target : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //If a harmful projectile collides with the protect target the game ends
-        if (collision.gameObject.tag == "Harmful" && collision.gameObject.GetComponent<Projectile>().isFriendly == false)
+        if (collision.gameObject.tag == "Harmful")
         {
             audioSource.Play();
             GameOverEvent.Raise();

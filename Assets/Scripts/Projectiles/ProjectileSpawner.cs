@@ -7,6 +7,7 @@ public class ProjectileSpawner : MonoBehaviour
     //Bullet prefabs
     public GameObject bulletPrefab;
     public GameObject boidBulletPrefab;
+    public GameObject bombPrefab;
 
     //List of all bullets
     [SerializeField]
