@@ -2,32 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : Bullet
+public class Bomb : Projectile
 {
     public int hitForce = 200;
     public VarColor playerColor;
 
     public GameObject explosionCol;
-    private ColorLerper colorLerp;
 
-    private Rigidbody2D rb;
-    private CircleCollider2D col;
+    private ColorLerper colorLerp;
 
     public float fuseTime = 0.5f;
     private float fuseTimer;
 
-    private void Awake()
+    override protected void Awake()
     {
         base.Awake();
         health = 1;
+        colorLerp = GetComponent<ColorLerper>();
     }
 
     // Start is called before the first frame update
     void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<CircleCollider2D>();
-        colorLerp = GetComponent<ColorLerper>();
+    {       
         StartCoroutine(SetFuse());
     }
 
@@ -53,15 +49,15 @@ public class Bomb : Bullet
 
     //Bombs explode
     void DetonateBomb()
-    {
-        
+    {        
         explosionCol.SetActive(true);
+        explosionCol.GetComponent<Bomb_ExplosionCollider>().ActivateCollider(isFriendly);
     }
 
     override public void PlayerHit(Vector2 hitDir)
     {
         colorLerp.StopAllCoroutines();
-        explosionCol.GetComponent<Bomb_ExplosionCollider>().isFriendly = true;
+        isFriendly = true;
         rb.velocity.Set(rb.velocity.x, 0);
         rb.AddForce(hitDir * hitForce);
         GetComponent<SpriteRenderer>().color = playerColor.value;

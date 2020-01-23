@@ -9607,7 +9607,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Spawn: {fileID: 8300000, guid: 5fc67e3cfe233ab41865d6346549a6bd, type: 3}
   Bounce: {fileID: 8300000, guid: e538bf809b2c99d4086d54f4663fa730, type: 3}
-  Death: {fileID: 8300000, guid: 5f5f2213a93d4bf45957f78084f98c79, type: 3}
   Clink: {fileID: 8300000, guid: 7da937a81c460cb4b81951e8f1fe4c1c, type: 3}
   audioSource: {fileID: 0}
 --- !u!1 &3018954869631819443
@@ -14469,6 +14468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911ac4bd4c30b344f8c59a6d0181b439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFriendly: 0
   IncreaseScore: {fileID: 11400000, guid: ecc2d697f7472aa4385c8536cce42012, type: 2}
   IncreaseCritScore: {fileID: 11400000, guid: 403709d73d7131c4a825d4288e02e48d, type: 2}
   rb: {fileID: 0}

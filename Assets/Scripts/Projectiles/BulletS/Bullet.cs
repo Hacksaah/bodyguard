@@ -29,7 +29,7 @@ public class Bullet : Projectile
     override public void PlayerHit(Vector2 hitDir)
     {
         //if the player hits the bullet from behind...
-        if (Vector2.Angle(hitDir, rb.velocity) > 115)
+        if (Vector2.Angle(hitDir, rb.velocity) < 66)
         {
             health = 0;
             IncreaseCritScore.Raise();

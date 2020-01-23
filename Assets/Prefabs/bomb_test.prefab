@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 233468936260131560}
   m_Layer: 11
   m_Name: bomb_test
-  m_TagString: Bomb
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,6 +96,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baaaf5f2c9db9e147a00891014f467ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFriendly: 0
+  IncreaseScore: {fileID: 0}
+  IncreaseCritScore: {fileID: 0}
+  rb: {fileID: 0}
+  hitForce: 200
   playerColor: {fileID: 11400000, guid: b3af5011af0c2ab479bdde180830d6d5, type: 2}
   explosionCol: {fileID: 233468936576406772}
   fuseTime: 5
@@ -162,9 +167,9 @@ GameObject:
   - component: {fileID: 233468936576406773}
   - component: {fileID: 233468936576406763}
   - component: {fileID: 233468936576406762}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Explosion_Collider
-  m_TagString: Untagged
+  m_TagString: Harmful
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

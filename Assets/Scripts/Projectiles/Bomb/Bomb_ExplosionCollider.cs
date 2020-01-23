@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bomb_ExplosionCollider : MonoBehaviour
 {
     private CircleCollider2D col;
-    public bool isFriendly = false;
+    private bool isFriendly;
 
     private void Awake()
     {
@@ -17,8 +17,9 @@ public class Bomb_ExplosionCollider : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    public void ActivateCollider(bool _isFriendly)
     {
+        isFriendly = _isFriendly;
         StartCoroutine(DecreaseHitBoxSize());
     }
 
@@ -38,7 +39,7 @@ public class Bomb_ExplosionCollider : MonoBehaviour
         if (isFriendly && collision.gameObject.layer == 11)
         {
             Vector2 hitDir = collision.transform.position - transform.position;
-            collision.gameObject.GetComponent<Bullet>().PlayerHit(hitDir);
+            collision.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
         }
     }
 
@@ -47,7 +48,7 @@ public class Bomb_ExplosionCollider : MonoBehaviour
         if (isFriendly && collision.gameObject.layer == 11)
         {
             Vector2 hitDir = collision.transform.position - transform.position;
-            collision.gameObject.GetComponent<Bullet>().PlayerHit(hitDir);
+            collision.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
         }
     }
 }
