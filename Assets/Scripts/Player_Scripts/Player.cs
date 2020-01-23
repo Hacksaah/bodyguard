@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     // This collision function checks to see if the player is standing on a platform
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "platform")
+        if (other.gameObject.tag == "Platform")
         {
             isGrounded = true;
 
@@ -51,9 +51,9 @@ public class Player : MonoBehaviour
                 fastFallCamShake.Raise();
             }
         }
-        if(other.gameObject.layer == 11)
+        if (other.gameObject.layer == 11)
         {
-            Vector2 hitDir = other.transform.position - transform.position;
+            Vector2 hitDir = transform.position - other.transform.position;
             other.gameObject.GetComponent<Projectile>().PlayerHit(hitDir);
         }
     }
