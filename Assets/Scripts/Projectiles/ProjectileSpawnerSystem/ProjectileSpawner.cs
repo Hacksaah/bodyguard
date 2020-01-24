@@ -22,9 +22,10 @@ public class ProjectileSpawner : MonoBehaviour
     //Max time until next bullet wave
     private float timerMaxCD = 30.0f;
 
-    public VarInt Score;
+    private SpawnerPoolHandler spawnerPool; // the object pool handler for this spawner
+    private DifficultyScaleManager difficultyTracker;  // the difficulty scaler for this spawner
 
-    private int maxNumToSpawn;
+    public VarInt Score;
 
     private int minNumSequences;       // the minimum # of times the spawner will fire bullets during a wave
     private int maxNumSequences;       // the maximum # of times the spawner will fire bullets during a wave
@@ -34,34 +35,25 @@ public class ProjectileSpawner : MonoBehaviour
 
     private int maxProjectilesAllowed = 5;  // maximum number of bullets allowed on screen at a time
 
-    private int numProjectilesToFire;
-    private int numOfSequences;
-    private float timeBetweenSequences;
-
     private int bulletHP;
     private int boidScoreThreshold = 30;
 
+    private int numProjectilesToFire;
+    private int numOfSequences;
+    private float timeBetweenSequences;    
+
     private void Awake()
     {
-        deadProjectileSet.Clear();
-        aliveProjectileSet.Clear();
+        spawnerPool = GetComponent<SpawnerPoolHandler>();
+        spawnerPool.SetDefaultValues();
+        difficultyTracker = GetComponent<DifficultyScaleManager>();
+        difficultyTracker.SetDefaultSettings();
     }
 
     // Start is called before the first frame update
     void Start()
-    {
-        maxProjectilesAllowed = 5;
-
-        minNumSequences = 1;
-        maxNumSequences = 4;
-
-        minNumBulletsToFire = 1;
-        maxNumBulletsToFire = 3;
-
-        sequenceTimer = 2.5f;
-        timerMaxCD = 30.0f;
-
-        bulletHP = 1;
+    {        
+        sequenceTimer = 2.5f;        
     }
 
     // Update is called once per frame
@@ -69,11 +61,11 @@ public class ProjectileSpawner : MonoBehaviour
     {
         if (sequenceTimer <= 0)
         {
-            numOfSequences = Random.Range(minNumSequences, maxNumSequences);
+            numOfSequences = difficultyTracker.ReturnRandomNumSequences();
             timeBetweenSequences = 0;
 
             //Reset wave timer
-            sequenceTimer = timerMaxCD;
+            sequenceTimer = difficultyTracker.timerMaxCD;
         }
         else
         {
@@ -86,7 +78,7 @@ public class ProjectileSpawner : MonoBehaviour
             SpawnSequence(Random.Range(0, 3));
 
             numOfSequences--;
-            timeBetweenSequences = Random.Range(1.2f, 2.0f);
+            timeBetweenSequences = difficultyTracker.ReturnRandomTimeBetweenSequences();
         }
         else
         {
@@ -104,17 +96,7 @@ public class ProjectileSpawner : MonoBehaviour
         // Reduces the wave timer if true
         if (numOfSequences == 0 && aliveProjectileSet.Count() == 0 && sequenceTimer > 2.5f) sequenceTimer = 2.5f;
 
-        // increases bullet spawn health based on point value
-        if (Score.value >= 150) bulletHP = 3;
-        else if (Score.value >= 50) bulletHP = 2;
-
-        if (Score.value % 10 == 0 && Score.value <= 150)
-        {
-            maxProjectilesAllowed++;
-            maxNumSequences++;
-            maxNumBulletsToFire++;
-            timerMaxCD--;
-        }
+        difficultyTracker.CheckDifficultyStats();
     }
 
 
@@ -131,7 +113,7 @@ public class ProjectileSpawner : MonoBehaviour
             newBoidBullet.GetComponent<Projectile>().ReviveProjectile(GetRandomShootDirection(), bulletHP);
         }
 
-        int numProjectilesToFire = Random.Range(minNumBulletsToFire, maxNumBulletsToFire);
+        int numProjectilesToFire = difficultyTracker.ReturnRandomNumToFire();
         switch (numForSpawnType)
         {
             //Spawn Pattern: Random 
@@ -166,11 +148,16 @@ public class ProjectileSpawner : MonoBehaviour
     IEnumerator SpawnRandom(int spawnCount)
     {
         int i = 0;
+        // checks spawn pool to see if enough dead projectiles exist, if not it makes more.
+        spawnerPool.CheckDeadProjectileSetForSequence(spawnCount, 0);
+        // TO DO :: shoot projectiles ...
+
         while (i < spawnCount)
         {
             if (deadProjectileSet.Count() > spawnCount - i && aliveProjectileSet.Count() < maxProjectilesAllowed)
             {
-                if (Score.value >= boidScoreThreshold && Random.Range(1, 11) < 3)
+                // chance to shoot a boid bullet if
+                if (difficultyTracker.ChanceForRandomBoidBullet())
                 {
                     GameObject newBoidBullet = Instantiate(boidBulletPrefab, new Vector2(Random.Range(-8.0f, 8.0f), Random.Range(2.0f, 4.0f)), Quaternion.identity);
                     newBoidBullet.GetComponent<Projectile>().ReviveProjectile(GetRandomShootDirection(), bulletHP);
