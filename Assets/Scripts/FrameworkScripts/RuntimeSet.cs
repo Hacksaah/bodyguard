@@ -15,4 +15,14 @@ using UnityEngine;
     {
         if(items.Contains(t)) items.Remove(t);
     }
+
+    public int Count()
+    {
+        return items.Count;
+    }
+
+    public void Clear()
+    {
+        items.Clear();
+    }
 }

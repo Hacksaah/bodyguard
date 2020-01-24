@@ -42,7 +42,7 @@ public class BoidBullet : Projectile
     public override void PlayerHit(Vector2 hitDir)
     {
         //if the player hits the bullet from behind...
-        if (Vector2.Angle(hitDir, rb.velocity) > 115)
+        if (Vector2.Angle(hitDir, rb.velocity) < 65)
         {
             health = 0;
             IncreaseCritScore.Raise();
@@ -63,8 +63,6 @@ public class BoidBullet : Projectile
             particles.ChangeParticleColor(health - 1);
             audio.PlayClinkSound();
         }
-        pSpawner.deadBulletList.Remove(gameObject);
-        StartCoroutine(DelayDestruction());
     }
 
     public override void ReviveProjectile(Vector2 direction, int HP)
@@ -101,12 +99,6 @@ public class BoidBullet : Projectile
         //Add bullet to spawner list of dead bullets -- for bullet spawner
         pSpawner.AddBulletToDeadList(gameObject);
         StartCoroutine(DeactivateCollider());
-    }    
-
-    IEnumerator DelayDestruction()
-    {
-        yield return new WaitForSeconds(1.5f);
-        Destroy(gameObject);
     }
 
     IEnumerator DeactivateCollider()

@@ -29,7 +29,7 @@ public class Bullet : Projectile
     override public void PlayerHit(Vector2 hitDir)
     {
         //if the player hits the bullet from behind...
-        if (Vector2.Angle(hitDir, rb.velocity) > 115)
+        if (Vector2.Angle(hitDir, rb.velocity) < 65)
         {
             health = 0;
             IncreaseCritScore.Raise();
@@ -86,7 +86,7 @@ public class Bullet : Projectile
     public void PlayDeathNoSound()
     {
         particles.EnableDeath();
-        rb.simulated = false;
+        rb.bodyType = RigidbodyType2D.Static;
         //Add bullet to spawner list of dead bullets -- for bullet spawner
         pSpawner.AddBulletToDeadList(gameObject);
         StartCoroutine(DeactivateCollider());

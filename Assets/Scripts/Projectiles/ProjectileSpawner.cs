@@ -11,14 +11,14 @@ public class ProjectileSpawner : MonoBehaviour
 
     //List of all bullets
     [SerializeField]
-    private List<GameObject> aliveBulletList;
+    private GameObjectSet aliveProjectileSet;
     //List to be object pooled
     [SerializeField]
-    public List<GameObject> deadBulletList;
+    private GameObjectSet deadProjectileSet;
 
     //Actual countdown
     [SerializeField]
-    protected float timerCD;
+    protected float sequenceTimer;
     //Max time until next bullet wave
     private float timerMaxCD = 30.0f;
 
@@ -26,33 +26,39 @@ public class ProjectileSpawner : MonoBehaviour
 
     private int maxNumToSpawn;
 
-    private int minNumShotsFired;       // the minimum # of times the spawner will fire bullets during a wave
-    private int maxNumShotsFired;       // the maximum # of times the spawner will fire bullets during a wave
+    private int minNumSequences;       // the minimum # of times the spawner will fire bullets during a wave
+    private int maxNumSequences;       // the maximum # of times the spawner will fire bullets during a wave
 
     private int minNumBulletsToFire;    // the minimum # of bullets that will fire for a shot
     private int maxNumBulletsToFire;    // the maximum # of bullets that will fire for a shot
 
-    private int maxBulletsAllowed = 5;  // maximum number of bullets allowed on screen at a time
+    private int maxProjectilesAllowed = 5;  // maximum number of bullets allowed on screen at a time
 
-    private int numBulletsToFire;
-    private int numShotsToFire;
-    private float timeBetweenShots;
+    private int numProjectilesToFire;
+    private int numOfSequences;
+    private float timeBetweenSequences;
 
     private int bulletHP;
     private int boidScoreThreshold = 30;
 
+    private void Awake()
+    {
+        deadProjectileSet.Clear();
+        aliveProjectileSet.Clear();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        maxBulletsAllowed = 5;
+        maxProjectilesAllowed = 5;
 
-        minNumShotsFired = 1;
-        maxNumShotsFired = 4;
+        minNumSequences = 1;
+        maxNumSequences = 4;
 
         minNumBulletsToFire = 1;
         maxNumBulletsToFire = 3;
 
-        timerCD = 2.5f;
+        sequenceTimer = 2.5f;
         timerMaxCD = 30.0f;
 
         bulletHP = 1;
@@ -61,30 +67,30 @@ public class ProjectileSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerCD <= 0)
+        if (sequenceTimer <= 0)
         {
-            numShotsToFire = Random.Range(minNumShotsFired, maxNumShotsFired);
-            timeBetweenShots = 0;
+            numOfSequences = Random.Range(minNumSequences, maxNumSequences);
+            timeBetweenSequences = 0;
 
             //Reset wave timer
-            timerCD = timerMaxCD;
+            sequenceTimer = timerMaxCD;
         }
         else
         {
             //Count down to bullet spawn
-            timerCD -= Time.deltaTime;
+            sequenceTimer -= Time.deltaTime;
         }
 
-        if (timeBetweenShots <= 0 && numShotsToFire > 0)
+        if (timeBetweenSequences <= 0 && numOfSequences > 0)
         {
-            SpawnBullet(Random.Range(0, 3));
+            SpawnSequence(Random.Range(0, 3));
 
-            numShotsToFire--;
-            timeBetweenShots = Random.Range(1.2f, 2.0f);
+            numOfSequences--;
+            timeBetweenSequences = Random.Range(1.2f, 2.0f);
         }
         else
         {
-            timeBetweenShots -= Time.deltaTime;
+            timeBetweenSequences -= Time.deltaTime;
         }
     }
 
@@ -92,11 +98,11 @@ public class ProjectileSpawner : MonoBehaviour
     // Increments difficulty
     public void AddBulletToDeadList(GameObject b)
     {
-        aliveBulletList.Remove(b);
-        deadBulletList.Add(b);
+        aliveProjectileSet.Remove(b);
+        deadProjectileSet.Add(b);
 
         // Reduces the wave timer if true
-        if (numShotsToFire == 0 && aliveBulletList.Count == 0 && timerCD > 2.5f) timerCD = 2.5f;
+        if (numOfSequences == 0 && aliveProjectileSet.Count() == 0 && sequenceTimer > 2.5f) sequenceTimer = 2.5f;
 
         // increases bullet spawn health based on point value
         if (Score.value >= 150) bulletHP = 3;
@@ -104,8 +110,8 @@ public class ProjectileSpawner : MonoBehaviour
 
         if (Score.value % 10 == 0 && Score.value <= 150)
         {
-            maxBulletsAllowed++;
-            maxNumShotsFired++;
+            maxProjectilesAllowed++;
+            maxNumSequences++;
             maxNumBulletsToFire++;
             timerMaxCD--;
         }
@@ -116,7 +122,7 @@ public class ProjectileSpawner : MonoBehaviour
     //Random Spawn Pattern - 0
     //Line Spawn Parttern - 1
     //X Spawn Pattern - 2
-    void SpawnBullet(int numForSpawnType)
+    void SpawnSequence(int numForSpawnType)
     {
         // Chance to spawn an extra boid bullet
         if (Score.value >= 150 && Random.Range(1, 20) < 5)
@@ -125,17 +131,17 @@ public class ProjectileSpawner : MonoBehaviour
             newBoidBullet.GetComponent<Projectile>().ReviveProjectile(GetRandomShootDirection(), bulletHP);
         }
 
-        int numBulletsToFire = Random.Range(minNumBulletsToFire, maxNumBulletsToFire);
+        int numProjectilesToFire = Random.Range(minNumBulletsToFire, maxNumBulletsToFire);
         switch (numForSpawnType)
         {
             //Spawn Pattern: Random 
             case 0:
-                StartCoroutine(SpawnRandom(numBulletsToFire));
+                StartCoroutine(SpawnRandom(numProjectilesToFire));
                 break;
 
             //Spawn Pattern: Line
             case 1:
-                StartCoroutine(SpawnLine(numBulletsToFire));
+                StartCoroutine(SpawnLine(numProjectilesToFire));
                 break;
 
             //Spawn Pattern: X
@@ -162,7 +168,7 @@ public class ProjectileSpawner : MonoBehaviour
         int i = 0;
         while (i < spawnCount)
         {
-            if (deadBulletList.Count > spawnCount - i && aliveBulletList.Count < maxBulletsAllowed)
+            if (deadProjectileSet.Count() > spawnCount - i && aliveProjectileSet.Count() < maxProjectilesAllowed)
             {
                 if (Score.value >= boidScoreThreshold && Random.Range(1, 11) < 3)
                 {
@@ -171,13 +177,13 @@ public class ProjectileSpawner : MonoBehaviour
                 }
                 else
                 {
-                    deadBulletList[0].transform.position = new Vector2(Random.Range(-8.0f, 8.0f), Random.Range(2.0f, 4.0f));
-                    deadBulletList[0].GetComponent<Projectile>().ReviveProjectile(GetRandomShootDirection(), bulletHP);
-                    aliveBulletList.Add(deadBulletList[0]);
-                    deadBulletList.Remove(deadBulletList[0]);
+                    deadProjectileSet.items[0].transform.position = new Vector2(Random.Range(-8.0f, 8.0f), Random.Range(2.0f, 4.0f));
+                    deadProjectileSet.items[0].GetComponent<Projectile>().ReviveProjectile(GetRandomShootDirection(), bulletHP);
+                    aliveProjectileSet.Add(deadProjectileSet.items[0]);
+                    deadProjectileSet.Remove(deadProjectileSet.items[0]);
                 }
             }
-            else if (aliveBulletList.Count < maxBulletsAllowed)
+            else if (aliveProjectileSet.Count() < maxProjectilesAllowed)
             {
                 if (Score.value >= boidScoreThreshold && Random.Range(1, 11) < 3)
                 {
@@ -188,7 +194,7 @@ public class ProjectileSpawner : MonoBehaviour
                 {
                     GameObject newBullet = Instantiate(bulletPrefab, new Vector2(Random.Range(-8.0f, 8.0f), Random.Range(2.0f, 4.0f)), Quaternion.identity);
                     newBullet.GetComponent<Projectile>().ReviveProjectile(GetRandomShootDirection(), bulletHP);
-                    aliveBulletList.Add(newBullet);
+                    aliveProjectileSet.Add(newBullet);
                 }
             }
             yield return new WaitForSeconds(0.2f);
@@ -221,21 +227,21 @@ public class ProjectileSpawner : MonoBehaviour
         Vector2 shootDirection = GetRandomShootDirection();
         while (i < spawnCount)
         {
-            if (deadBulletList.Count >= spawnCount - i && aliveBulletList.Count < maxBulletsAllowed)
+            if (deadProjectileSet.Count() >= spawnCount - i && aliveProjectileSet.Count() < maxProjectilesAllowed)
             {
                 //Use old bullets and remove them from the list
                 //Number of balls to spawn
-                deadBulletList[0].transform.position = new Vector2(randX + offset, 4.0f);
-                deadBulletList[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                aliveBulletList.Add(deadBulletList[0]);
-                deadBulletList.Remove(deadBulletList[0]);
+                deadProjectileSet.items[0].transform.position = new Vector2(randX + offset, 4.0f);
+                deadProjectileSet.items[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
+                aliveProjectileSet.Add(deadProjectileSet.items[0]);
+                deadProjectileSet.Remove(deadProjectileSet.items[0]);
             }
-            else if (aliveBulletList.Count < maxBulletsAllowed)
+            else if (aliveProjectileSet.Count() < maxProjectilesAllowed)
             {
                 //Make new bullets
                 GameObject newBullet = Instantiate(bulletPrefab, new Vector2(randX + offset, 4.0f), Quaternion.identity);
                 newBullet.GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                aliveBulletList.Add(newBullet);
+                aliveProjectileSet.Add(newBullet);
             }
 
             if (dir == 0) offset--;
@@ -256,7 +262,7 @@ public class ProjectileSpawner : MonoBehaviour
         int i = 0;
         while (i < 3)
         {
-            if (deadBulletList.Count > 1 && aliveBulletList.Count < maxBulletsAllowed - 1)
+            if (deadProjectileSet.Count() > 1 && aliveProjectileSet.Count() < maxProjectilesAllowed - 1)
             {
                 // this switch determines which part of X is being shot
                 switch (i)
@@ -264,46 +270,46 @@ public class ProjectileSpawner : MonoBehaviour
                     // top
                     case 0:
                         // Top Right
-                        deadBulletList[0].transform.position = new Vector2(randX + offset, 3.7f + offset);
-                        deadBulletList[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                        aliveBulletList.Add(deadBulletList[0]);
+                        deadProjectileSet.items[0].transform.position = new Vector2(randX + offset, 3.7f + offset);
+                        deadProjectileSet.items[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
+                        aliveProjectileSet.Add(deadProjectileSet.items[0]);
                         // Top Left
-                        deadBulletList[1].transform.position = new Vector2(randX - offset, 3.7f + offset);
-                        deadBulletList[1].GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
-                        aliveBulletList.Add(deadBulletList[1]);
+                        deadProjectileSet.items[1].transform.position = new Vector2(randX - offset, 3.7f + offset);
+                        deadProjectileSet.items[1].GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
+                        aliveProjectileSet.Add(deadProjectileSet.items[1]);
                         break;
 
                     // middle
                     case 1:
                         // Middle
-                        deadBulletList[0].transform.position = new Vector2(randX, 3.7f);
-                        deadBulletList[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                        aliveBulletList.Add(deadBulletList[0]);
+                        deadProjectileSet.items[0].transform.position = new Vector2(randX, 3.7f);
+                        deadProjectileSet.items[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
+                        aliveProjectileSet.Add(deadProjectileSet.items[0]);
                         // neg-Middle
-                        deadBulletList[1].transform.position = new Vector2(randX, 3.7f);
-                        deadBulletList[1].GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
-                        aliveBulletList.Add(deadBulletList[1]);
+                        deadProjectileSet.items[1].transform.position = new Vector2(randX, 3.7f);
+                        deadProjectileSet.items[1].GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
+                        aliveProjectileSet.Add(deadProjectileSet.items[1]);
                         break;
 
 
                     // bottom
                     case 2:
                         // Bottom right
-                        deadBulletList[0].transform.position = new Vector2(randX - offset, 3.7f - offset);
-                        deadBulletList[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                        aliveBulletList.Add(deadBulletList[0]);
+                        deadProjectileSet.items[0].transform.position = new Vector2(randX - offset, 3.7f - offset);
+                        deadProjectileSet.items[0].GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
+                        aliveProjectileSet.Add(deadProjectileSet.items[0]);
                         // Bottom Left
-                        deadBulletList[1].transform.position = new Vector2(randX + offset, 3.7f - offset);
-                        deadBulletList[1].GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
-                        aliveBulletList.Add(deadBulletList[1]);
+                        deadProjectileSet.items[1].transform.position = new Vector2(randX + offset, 3.7f - offset);
+                        deadProjectileSet.items[1].GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
+                        aliveProjectileSet.Add(deadProjectileSet.items[1]);
                         break;
                 }
 
 
-                deadBulletList.Remove(deadBulletList[1]);
-                deadBulletList.Remove(deadBulletList[0]);
+                deadProjectileSet.Remove(deadProjectileSet.items[1]);
+                deadProjectileSet.Remove(deadProjectileSet.items[0]);
             }
-            else if (aliveBulletList.Count < maxBulletsAllowed - 1)
+            else if (aliveProjectileSet.Count() < maxProjectilesAllowed - 1)
             {
 
                 switch (i)
@@ -313,11 +319,11 @@ public class ProjectileSpawner : MonoBehaviour
                         // Top Right
                         GameObject newBullet = Instantiate(bulletPrefab, new Vector2(randX + offset, 3.7f + offset), Quaternion.identity);
                         newBullet.GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                        aliveBulletList.Add(newBullet);
+                        aliveProjectileSet.Add(newBullet);
                         // Top Left
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX - offset, 3.7f + offset), Quaternion.identity);
                         newBullet.GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
-                        aliveBulletList.Add(newBullet);
+                        aliveProjectileSet.Add(newBullet);
                         break;
 
                     // middle
@@ -325,11 +331,11 @@ public class ProjectileSpawner : MonoBehaviour
                         // Middle
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX, 3.7f), Quaternion.identity);
                         newBullet.GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                        aliveBulletList.Add(newBullet);
+                        aliveProjectileSet.Add(newBullet);
                         // neg-Middle
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX, 3.7f), Quaternion.identity);
                         newBullet.GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
-                        aliveBulletList.Add(newBullet);
+                        aliveProjectileSet.Add(newBullet);
                         break;
 
                     // top
@@ -337,11 +343,11 @@ public class ProjectileSpawner : MonoBehaviour
                         // Bottom Right
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX - offset, 3.7f - offset), Quaternion.identity);
                         newBullet.GetComponent<Projectile>().ReviveProjectile(shootDirection, bulletHP);
-                        aliveBulletList.Add(newBullet);
+                        aliveProjectileSet.Add(newBullet);
                         // Bottom Left
                         newBullet = Instantiate(bulletPrefab, new Vector2(randX + offset, 3.7f - offset), Quaternion.identity);
                         newBullet.GetComponent<Projectile>().ReviveProjectile(negShootDir, bulletHP);
-                        aliveBulletList.Add(newBullet);
+                        aliveProjectileSet.Add(newBullet);
                         break;
                 }
             }

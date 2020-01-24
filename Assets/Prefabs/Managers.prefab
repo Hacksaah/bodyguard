@@ -339,7 +339,9 @@ MonoBehaviour:
     type: 3}
   boidBulletPrefab: {fileID: 3560784340622079553, guid: 7b1b8720aff3e1449b81b1b9221b6b71,
     type: 3}
-  aliveBulletList: []
-  deadBulletList: []
-  timerCD: 2.5
+  bombPrefab: {fileID: 233468936260131563, guid: 1a2a6240859191b429ea5b157a838ee3,
+    type: 3}
+  aliveProjectileSet: {fileID: 11400000, guid: 11a8abd678ca2e14fae945a50d41075c, type: 2}
+  deadProjectileSet: {fileID: 11400000, guid: cd15c403eb819a741927d3db17730348, type: 2}
+  sequenceTimer: 0
   Score: {fileID: 11400000, guid: 5ee0c7d3f562c634a864c60f549d1e19, type: 2}
